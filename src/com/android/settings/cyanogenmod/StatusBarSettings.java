@@ -15,17 +15,26 @@
  */
 package com.android.settings.cyanogenmod;
 
+import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.SwitchPreference;
+import android.preference.PreferenceScreen;
 import android.preference.Preference.OnPreferenceChangeListener;
+import android.provider.ContactsContract;
 import android.provider.SearchIndexableResource;
 import android.provider.Settings;
+import android.text.TextUtils;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.telephony.TelephonyManager;
 import android.text.format.DateFormat;
 import android.view.View;
@@ -36,6 +45,7 @@ import com.android.settings.SettingsPreferenceFragment;
 import com.android.settings.Utils;
 import com.android.settings.search.BaseSearchIndexProvider;
 import com.android.settings.search.Indexable;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,20 +58,22 @@ public class StatusBarSettings extends SettingsPreferenceFragment
 
     private static final String TAG = "StatusBar";
 
-    private static final String STATUS_BAR_CLOCK_STYLE = "status_bar_clock";
-    private static final String STATUS_BAR_AM_PM = "status_bar_am_pm";
     private static final String STATUS_BAR_BATTERY_STYLE = "status_bar_battery_style";
     private static final String STATUS_BAR_SHOW_BATTERY_PERCENT = "status_bar_show_battery_percent";
     private static final String STATUS_BAR_QUICK_QS_PULLDOWN = "qs_quick_pulldown";
 
     private static final int STATUS_BAR_BATTERY_STYLE_HIDDEN = 4;
     private static final int STATUS_BAR_BATTERY_STYLE_TEXT = 6;
+    private static final String KEY_STATUS_BAR_GREETING = "status_bar_greeting";
 
     private ListPreference mStatusBarClock;
     private ListPreference mStatusBarAmPm;
     private ListPreference mStatusBarBattery;
     private ListPreference mStatusBarBatteryShowPercent;
     private ListPreference mQuickPulldown;
+    private SwitchPreference mStatusBarGreeting;
+
+    private String mCustomGreetingText = "";
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -70,29 +82,10 @@ public class StatusBarSettings extends SettingsPreferenceFragment
 
         ContentResolver resolver = getActivity().getContentResolver();
 
-        mStatusBarClock = (ListPreference) findPreference(STATUS_BAR_CLOCK_STYLE);
-        mStatusBarAmPm = (ListPreference) findPreference(STATUS_BAR_AM_PM);
         mStatusBarBattery = (ListPreference) findPreference(STATUS_BAR_BATTERY_STYLE);
         mStatusBarBatteryShowPercent =
                 (ListPreference) findPreference(STATUS_BAR_SHOW_BATTERY_PERCENT);
         mQuickPulldown = (ListPreference) findPreference(STATUS_BAR_QUICK_QS_PULLDOWN);
-
-        int clockStyle = CMSettings.System.getInt(resolver,
-                CMSettings.System.STATUS_BAR_CLOCK, 1);
-        mStatusBarClock.setValue(String.valueOf(clockStyle));
-        mStatusBarClock.setSummary(mStatusBarClock.getEntry());
-        mStatusBarClock.setOnPreferenceChangeListener(this);
-
-        if (DateFormat.is24HourFormat(getActivity())) {
-            mStatusBarAmPm.setEnabled(false);
-            mStatusBarAmPm.setSummary(R.string.status_bar_am_pm_info);
-        } else {
-            int statusBarAmPm = CMSettings.System.getInt(resolver,
-                    CMSettings.System.STATUS_BAR_AM_PM, 2);
-            mStatusBarAmPm.setValue(String.valueOf(statusBarAmPm));
-            mStatusBarAmPm.setSummary(mStatusBarAmPm.getEntry());
-            mStatusBarAmPm.setOnPreferenceChangeListener(this);
-        }
 
         int batteryStyle = CMSettings.System.getInt(resolver,
                 CMSettings.System.STATUS_BAR_BATTERY_STYLE, 0);
@@ -112,6 +105,11 @@ public class StatusBarSettings extends SettingsPreferenceFragment
         mQuickPulldown.setValue(String.valueOf(quickPulldown));
         updatePulldownSummary(quickPulldown);
         mQuickPulldown.setOnPreferenceChangeListener(this);
+
+        mStatusBarGreeting = (SwitchPreference) findPreference(KEY_STATUS_BAR_GREETING);
+        mCustomGreetingText = Settings.System.getString(resolver, Settings.System.STATUS_BAR_GREETING);
+        boolean greeting = mCustomGreetingText != null && !TextUtils.isEmpty(mCustomGreetingText);
+        mStatusBarGreeting.setChecked(greeting);
     }
 
     @Override
@@ -121,35 +119,53 @@ public class StatusBarSettings extends SettingsPreferenceFragment
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        // Adjust clock position for RTL if necessary
-        Configuration config = getResources().getConfiguration();
-        if (config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
-                mStatusBarClock.setEntries(getActivity().getResources().getStringArray(
-                        R.array.status_bar_clock_style_entries_rtl));
-                mStatusBarClock.setSummary(mStatusBarClock.getEntry());
+    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
+            final Preference preference) {
+        final ContentResolver resolver = getActivity().getContentResolver();
+        if (preference == mStatusBarGreeting) {
+           boolean enabled = mStatusBarGreeting.isChecked();
+           if (enabled) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+
+                alert.setTitle(R.string.status_bar_greeting_title);
+                alert.setMessage(R.string.status_bar_greeting_dialog);
+
+                // Set an EditText view to get user input
+                final EditText input = new EditText(getActivity());
+                input.setText(mCustomGreetingText != null ? mCustomGreetingText : String.format(getResources().getString(R.string.status_bar_greeting_default), readProfileOwnerName()));
+                alert.setView(input);
+                alert.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String value = ((Spannable) input.getText()).toString();
+                        Settings.System.putString(getActivity().getContentResolver(),
+                                Settings.System.STATUS_BAR_GREETING, value);
+                        updateCheckState(value);
+                    }
+                });
+                alert.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+                    }
+                });
+
+                alert.show();
+            } else {
+                Settings.System.putString(getActivity().getContentResolver(),
+                                Settings.System.STATUS_BAR_GREETING, "");
+            }
         }
+        // If we didn't handle it, let preferences handle it.		
+        return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
+    
+    private void updateCheckState(String value) {
+		if (value == null || TextUtils.isEmpty(value)) mStatusBarGreeting.setChecked(false);
+	}  
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         ContentResolver resolver = getActivity().getContentResolver();
-        if (preference == mStatusBarClock) {
-            int clockStyle = Integer.parseInt((String) newValue);
-            int index = mStatusBarClock.findIndexOfValue((String) newValue);
-            CMSettings.System.putInt(
-                    resolver, CMSettings.System.STATUS_BAR_CLOCK, clockStyle);
-            mStatusBarClock.setSummary(mStatusBarClock.getEntries()[index]);
-            return true;
-        } else if (preference == mStatusBarAmPm) {
-            int statusBarAmPm = Integer.valueOf((String) newValue);
-            int index = mStatusBarAmPm.findIndexOfValue((String) newValue);
-            CMSettings.System.putInt(
-                    resolver, CMSettings.System.STATUS_BAR_AM_PM, statusBarAmPm);
-            mStatusBarAmPm.setSummary(mStatusBarAmPm.getEntries()[index]);
-            return true;
-        } else if (preference == mStatusBarBattery) {
+        if (preference == mStatusBarBattery) {
             int batteryStyle = Integer.valueOf((String) newValue);
             int index = mStatusBarBattery.findIndexOfValue((String) newValue);
             CMSettings.System.putInt(
@@ -219,4 +235,20 @@ public class StatusBarSettings extends SettingsPreferenceFragment
                     return result;
                 }
             };
+
+    private String readProfileOwnerName() {
+
+        ContentResolver content = getContentResolver();
+
+        Cursor c = content.query(ContactsContract.Profile.CONTENT_URI, null,null, null, null);
+        String name = null;
+
+        if (c.getCount() > 0) {
+            c.moveToNext();
+            name = c.getString(c.getColumnIndex(ContactsContract.Profile.DISPLAY_NAME));
+        }else{
+            name = (getResources().getString(R.string.status_bar_greeting_no_user));
+        }
+        return name;
+    }
 }

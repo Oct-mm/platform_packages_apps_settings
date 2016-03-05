@@ -35,7 +35,9 @@ import com.android.internal.logging.MetricsLogger;
 import com.android.settings.R;
 import com.android.settings.SettingsPreferenceFragment;
 import com.android.internal.util.cm.PowerMenuConstants;
+
 import cyanogenmod.providers.CMSettings;
+
 import org.cyanogenmod.internal.logging.CMMetricsLogger;
 
 import static com.android.internal.util.cm.PowerMenuConstants.*;
@@ -51,10 +53,10 @@ public class PowerMenuActions extends SettingsPreferenceFragment {
 
     private SwitchPreference mRebootPref;
     private SwitchPreference mScreenshotPref;
-    private SwitchPreference mProfilePref;
     private SwitchPreference mAirplanePref;
     private SwitchPreference mUsersPref;
     private SwitchPreference mSettingsPref;
+    private SwitchPreference mScreenrecordPref;
     private SwitchPreference mLockdownPref;
     private SwitchPreference mBugReportPref;
     private SwitchPreference mSilentPref;
@@ -91,6 +93,8 @@ public class PowerMenuActions extends SettingsPreferenceFragment {
                 mRebootPref = (SwitchPreference) findPreference(GLOBAL_ACTION_KEY_REBOOT);
             } else if (action.equals(GLOBAL_ACTION_KEY_SCREENSHOT)) {
                 mScreenshotPref = (SwitchPreference) findPreference(GLOBAL_ACTION_KEY_SCREENSHOT);
+            } else if (action.equals(GLOBAL_ACTION_KEY_SCREENRECORD)) {
+                mScreenrecordPref = (SwitchPreference) findPreference(GLOBAL_ACTION_KEY_SCREENRECORD);
             } else if (action.equals(GLOBAL_ACTION_KEY_AIRPLANE)) {
                 mAirplanePref = (SwitchPreference) findPreference(GLOBAL_ACTION_KEY_AIRPLANE);
             } else if (action.equals(GLOBAL_ACTION_KEY_USERS)) {
@@ -128,6 +132,10 @@ public class PowerMenuActions extends SettingsPreferenceFragment {
 
         if (mScreenshotPref != null) {
             mScreenshotPref.setChecked(settingsArrayContains(GLOBAL_ACTION_KEY_SCREENSHOT));
+        }
+
+        if (mScreenrecordPref != null) {
+            mScreenrecordPref.setChecked(settingsArrayContains(GLOBAL_ACTION_KEY_SCREENRECORD));
         }
 
         if (mAirplanePref != null) {
@@ -191,6 +199,10 @@ public class PowerMenuActions extends SettingsPreferenceFragment {
         } else if (preference == mScreenshotPref) {
             value = mScreenshotPref.isChecked();
             updateUserConfig(value, GLOBAL_ACTION_KEY_SCREENSHOT);
+
+        } else if (preference == mScreenrecordPref) {
+            value = mScreenrecordPref.isChecked();
+            updateUserConfig(value, GLOBAL_ACTION_KEY_SCREENRECORD);
 
         } else if (preference == mAirplanePref) {
             value = mAirplanePref.isChecked();
@@ -260,17 +272,6 @@ public class PowerMenuActions extends SettingsPreferenceFragment {
     private void updatePreferences() {
         boolean bugreport = Settings.Secure.getInt(getContentResolver(),
                 Settings.Secure.BUGREPORT_IN_POWER_MENU, 0) != 0;
-        boolean profiles = CMSettings.System.getInt(getContentResolver(),
-                CMSettings.System.SYSTEM_PROFILES_ENABLED, 1) != 0;
-
-        if (mProfilePref != null) {
-            mProfilePref.setEnabled(profiles);
-            if (profiles) {
-                mProfilePref.setSummary(null);
-            } else {
-                mProfilePref.setSummary(R.string.power_menu_profiles_disabled);
-            }
-        }
 
         if (mBugReportPref != null) {
             mBugReportPref.setEnabled(bugreport);

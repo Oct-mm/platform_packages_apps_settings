@@ -160,13 +160,6 @@
   <string name="profile_appgroup_name_title">Név</string>
   <string name="duplicate_appgroup_name">Már létező alkalmazáscsoport!</string>
   <string name="profile_app_delete_confirm">Biztosan el akarja távolítani ezt az alkalmazást?</string>
-  <string name="sound_mode">Értesítési mód</string>
-  <string name="ringer_mode">Csengetés módja</string>
-  <string name="lights_mode">Fényjelzés módja</string>
-  <string name="vibrate_mode">Rezgő mód</string>
-  <string name="choose_soundtone">Értesítés hangja</string>
-  <string name="choose_ringtone">Telefon csengőhangja</string>
-  <string name="soundtone_title">Értesítés hangja</string>
   <string name="no_bluetooth_triggers">Nincs párosított Bluetooth eszköz.\nBluetooth eszköz párosításáért érintse meg, mielőtt beállítaná a triggereket.</string>
   <string name="no_wifi_triggers">Nincs Wi\u2011Fi hozzáférési pont beállítva.\nA Wi\u2011Fi csatlakoztatásához érintse meg, mielőtt beállítaná a triggereket.</string>
   <string name="no_triggers_configured">Nincs trigger beállítva. Új hozzáadásáért érintse meg.</string>
@@ -217,8 +210,10 @@
   <string name="notification_light_missed_call_title">Nem fogadott hívás</string>
   <string name="notification_light_voicemail_title">Hangposta</string>
   <string name="notification_light_screen_on">Értesítési LED bekapcsolt képernyőnél</string>
+  <string name="notification_light_zen_mode">Fények a Ne zavarjanak módban</string>
   <string name="notification_light_use_multiple_leds">Több LED</string>
   <string name="keywords_lights_brightness_level">ledek fényerősségének állítása</string>
+  <string name="notification_light_automagic">Automatikus színválasztás</string>
   <string name="led_notification_title">LED beállítások</string>
   <string name="led_notification_text">LED fény engedélyezve</string>
   <string name="enable_adb_cm">Android hibakeresés</string>
@@ -246,6 +241,7 @@
   <string name="app_ops_summaries_read_calendar">naptár olvasása</string>
   <string name="app_ops_summaries_modify_calendar">naptár módosítása</string>
   <string name="app_ops_summaries_wifi_scan">Wi-Fi keresés</string>
+  <string name="app_ops_summaries_notification">értesítés/buborékszöveg</string>
   <string name="app_ops_summaries_cell_scan">cella keresés</string>
   <string name="app_ops_summaries_call_phone">telefon hívás</string>
   <string name="app_ops_summaries_read_sms">SMS olvasása</string>
@@ -301,7 +297,7 @@
   <string name="app_ops_summaries_toggle_bluetooth">bluetooth kapcsolása</string>
   <string name="app_ops_summaries_start_at_boot">indítás rendszerbetöltéskor</string>
   <string name="app_ops_summaries_toggle_nfc">NFC kapcsolása</string>
-  <string name="app_ops_summaries_toggle_mobile_data">mobilinternet kapcsolása</string>
+  <string name="app_ops_summaries_toggle_mobile_data">mobilnet váltása</string>
   <string name="app_ops_summaries_superuser">rendszergazdai hozzáférés</string>
   <string name="app_ops_labels_coarse_location">Pontatlan hely</string>
   <string name="app_ops_labels_fine_location">Pontos hely</string>
@@ -370,7 +366,7 @@
   <string name="app_ops_labels_toggle_bluetooth">Bluetooth kapcsolása</string>
   <string name="app_ops_labels_start_at_boot">Indítás rendszerbetöltéskor</string>
   <string name="app_ops_labels_toggle_nfc">NFC kapcsolása</string>
-  <string name="app_ops_labels_toggle_mobile_data">Mobilinternet kapcsolása</string>
+  <string name="app_ops_labels_toggle_mobile_data">Mobilnet váltása</string>
   <string name="app_ops_labels_superuser">Rendszergazda hozzáférés</string>
   <string name="app_ops_permissions_allowed">Engedélyezett</string>
   <string name="app_ops_permissions_ignored">Figyelmen kívül hagyva</string>
@@ -446,7 +442,6 @@
   <string name="power_menu_title">Kikapcsoló menü</string>
   <string name="power_menu_reboot_title">Újraindítás menü</string>
   <string name="power_menu_screenshot_title">Képernyőmentés</string>
-  <string name="power_menu_profiles_title">Profil választó</string>
   <string name="power_menu_airplane_title">Repülőgép üzemmód</string>
   <string name="power_menu_users_title">Felhasználóváltás</string>
   <string name="power_menu_settings_title">Beállítások gyorsgomb</string>
@@ -454,7 +449,6 @@
   <string name="power_menu_bug_report_title">Hibajelentés készítése</string>
   <string name="power_menu_sound_title">Hang mód</string>
   <string name="power_menu_bug_report_disabled">Hibajelentés le van tiltva a fejlesztői beállításokban</string>
-  <string name="power_menu_profiles_disabled">Rendszerprofilok le vannak tiltva</string>
   <string name="disable_navkeys_title">Navigációs sáv engedélyezése</string>
   <string name="disable_navkeys_summary">Navigációs sáv engedélyezése és a hardveres gombok letiltása</string>
   <string name="double_tap_to_sleep_title">Dupla érintésre alvó mód</string>
@@ -537,6 +531,7 @@
   <string name="heads_up_notifications">Lebegő értesítés</string>
   <string name="summary_heads_up_enabled">Lebegő értesítések engedélyezve</string>
   <string name="summary_heads_up_disabled">Lebegő értesítések letiltva</string>
+  <string name="bluetooth_accept_all_files">Minden fájltípus elfogadása</string>
   <string name="high_touch_sensitivity_title">Magas érintési érzékenység</string>
   <string name="high_touch_sensitivity_summary">Érintőképernyő érzékenységének növelése, így kesztyű viselése esetén is használható</string>
   <string name="lcd_density">LCD sűrűség</string>
@@ -638,6 +633,9 @@
   <string name="privacy_guard_notification_title">Értesítés megjelenítése</string>
   <string name="lockpattern_settings_enable_error_path_title">Hibás minta megjelenítése</string>
   <string name="lockpattern_settings_enable_dots_title">Feloldási pontok megjelenítése</string>
+  <string name="lock_directly_show_password">Közvetlen jelszó megadás megjelenítése</string>
+  <string name="lock_directly_show_pattern">Közvetlen minta nézet megjelenítése</string>
+  <string name="lock_directly_show_pin">Közvetlen PIN megadás megjelenítése</string>
   <string name="lockscreen_visualizer_title">Zenei vizualítás megjelenítése</string>
   <string name="lockscreen_disabled_by_qs_tile_title">Gyorsbeállítások csempe által tiltva</string>
   <string name="lockscreen_disabled_by_qs_tile_summary">Érintse meg a zárképernyő engedélyezéséhez</string>
@@ -648,6 +646,7 @@
   <string name="autoperf_title">Automatikus profilválasztás engedélyezése</string>
   <string name="autoperf_summary">Automatikusan kiválasztja a megfelelő akkumulátor üzemmódot az alkalmazások számára</string>
   <string name="perf_profile_title">Akkumulátor mód</string>
+  <string name="memory_startup_apps_title">Rendszerindításkor indult alkalmazások</string>
   <string name="notification_ringtone_title_cm">Értesítés hangja</string>
   <string name="advanced_reboot_title">Speciális újraindítás</string>
   <string name="advanced_reboot_summary">Feloldott képernyő esetén, a kikapcsoló menüben a recovery, bootloader, vagy a lágy újraindítás módok megjelenítése</string>
@@ -730,12 +729,14 @@
   <string name="menu_hidden_apps_delete">Visszaállítás</string>
   <string name="menu_hidden_apps_reset_lock">Minta visszaállítása</string>
   <string name="protected_apps">Védett alkalmazások</string>
+  <string name="protected_apps_summary">A biztonsági zár mögötti rejtett alkalmazások kezelése</string>
   <string name="saving_protected_components">Összetevő állapotának mentése\u2026</string>
   <string name="pa_login_username_hint">Felhasználónév (e-mail)</string>
   <string name="pa_login_password_hint">Jelszó</string>
   <string name="pa_login_submit_button">Bejelentkezés</string>
   <string name="pa_login_checking_password">Fiók ellenőrzése\u2026</string>
   <string name="pa_login_incorrect_login">Sikertelen bejelentkezés</string>
+  <string name="pa_pattern_or_fingerprint_header">Ujjlenyomat vagy minta szükséges a feloldáshoz</string>
   <string name="contributors_cloud_fragment_title">Közreműködők</string>
   <string name="contributors_cloud_loading_message">Közreműködői adatok betöltése\u2026</string>
   <string name="contributors_cloud_failed_message">Közreműködői adatok betöltés sikertelen</string>
@@ -761,11 +762,14 @@
   <string name="link_volume_option_title">Csengő és értesítési hangok összekötése</string>
   <string name="lcd_density_prompt_message">Néhány alkalmazás lehet nem fog rendesen működni a nem szabványos dpi-nél.\n\nEz újra fogja indítani az eszközt.</string>
   <string name="apn_ppp_number">APN PPP telefonszám</string>
+  <string name="duplicate_apn_error_title">Az APN már létezik</string>
+  <string name="duplicate_apn_error_message">Ez az APN már létezik. Vesse el, vagy módosítsa a paramétereket.</string>
   <string name="sim_enabler_summary"><xliff:g id="displayName">%1$s</xliff:g> <xliff:g id="status" example="disabled">%2$s</xliff:g></string>
   <string name="sim_disabled">letiltva</string>
   <string name="sim_missing">hiányzik vagy hibás</string>
   <string name="sim_enabler_need_disable_sim">SIM-kártya deaktiválva lesz. Szeretné folytatni?</string>
   <string name="sim_enabler_will_disable_sim_title">Figyelem</string>
+  <string name="sim_enabler_need_switch_data_service">Ez a SIM tiltásra kerül és a SIM <xliff:g id="slotid">%1$s</xliff:g> kerül adatszolgáltatáshoz használva. Biztosan folytatni kívánja?</string>
   <string name="sim_enabler_airplane_on">Nem sikerült végrehajtani a műveletet, amíg a repülőgép üzemmód aktív.</string>
   <string name="sim_enabler_in_call">Nem sikerült végrehajtani a műveletet, hívás közben.</string>
   <string name="sim_enabler_both_inactive">Nem tiltható le az összes SIM-kártya</string>
@@ -780,7 +784,7 @@
   <string name="sim_card_status_title">SIM %d állapot</string>
   <string name="sim_card_lock_settings_title">SIM %d zárolási beállítások</string>
   <string name="sim_card_summary_empty">SIM nincs behelyezve</string>
-  <string name="sim_mobile_network_settings_category_title">Mobilhálózati beállítások</string>
+  <string name="sim_mobile_network_settings_category_title">Mobilhálózat beállítások</string>
   <string name="sim_mobile_network_settings_title">SIM %d beállítások</string>
   <string name="zen_mode_summary_reminders">emlékeztetők</string>
   <string name="zen_mode_summary_events">események</string>
@@ -791,4 +795,34 @@
   <string name="ic_code_model">Modell: %1$s</string>
   <string name="ic_code_full">IC: %1$s</string>
   <string name="sim_ringtone_title">SIM %d csengőhang</string>
+  <string name="app_name_label_cm">Alkalmazás:</string>
+  <string name="last_time_used_label_cm">Utoljára használva:</string>
+  <string name="usage_time_label_cm">Használati idő:</string>
+  <string name="master_clear_desc_cm" product="tablet">Ezzel törölni fog minden adatot a táblagépének <b>belső tárhelyéről</b> beleértve:\n\n<li>Eszköz fiókok</li>\n<li>Rendszer és alkalmazás adatok, beállítások</li>\n<li>Letöltött alkalmazások</li></string>
+  <string name="master_clear_desc_cm" product="default">Ezzel törölni fog minden adatot a telefonjának <b>belső tárhelyéről</b> beleértve:\n\n<li>Eszköz fiókok</li>\n<li>Rendszer és alkalmazás adatok, beállítások</li>\n<li>Letöltött alkalmazások</li></string>
+  <string name="factory_reset_instructions_title">Személyes adatok &amp; alkalmazások</string>
+  <string name="factory_reset_instructions_summary">Ezzel minden fiókját, alkalmazását, adatát és rendszerbeállítását törli ezen a készüléken</string>
+  <string name="factory_reset_personal_content">Személyes tartalom</string>
+  <string name="factory_reset_erase_stored_content">Tárolt tartalom törlése</string>
+  <string name="factory_reset_erase_stored_content_summary">Zenék, fotók, videók és egyéb ezen az eszközön tárolt felhasználói adatok törlése</string>
+  <string name="factory_reset_erase_stored_content_summary_forced">Zenék, képek, videók és egyéb ezen az eszközön tárolt felhasználói adatok törlése.\n\n<b>Tartalom nem menthető az eszköz titkosítása miatt.</b></string>
+  <string name="factory_reset_erase_sd_card">SD-kártya formázása</string>
+  <string name="factory_reset_erase_sd_card_summary">Az összes adatot törli az SD-kártyán, beleértve a zenéket és a fotókat</string>
+  <string name="factory_reset_warning_text_reset_now">VISSZAÁLLÍTÁS MOST</string>
+  <string name="factory_reset_warning_text_message">Minden fiókja, alkalmazása, adata és rendszerbeállítása eltávolításra kerül erről a készülékről. Nem lehet visszavonni.</string>
+  <string name="tethering_other_category_text">Egyéb</string>
+  <string name="hotstpot_inactivity_timeout_text">Wi\u2011Fi hotspot időkorlát</string>
+  <string name="hotstpot_inactivity_timeout_never">Soha</string>
+  <string name="hotstpot_inactivity_timeout_1_minute">1 perc</string>
+  <string name="hotstpot_inactivity_timeout_5_minutes">5 perc</string>
+  <string name="hotstpot_inactivity_timeout_10_minutes">10 perc</string>
+  <string name="hotstpot_inactivity_timeout_never_summary_text">Hordozható Wi\u2011Fi hotspot időkorlát nélkül</string>
+  <string name="hotstpot_inactivity_timeout_summary_text">Hordozható Wi\u2011Fi hotspot időkorlát: <xliff:g id="timeout">%1$s</xliff:g> után</string>
+  <string name="live_lock_screen_title">Élő zárképernyő</string>
+  <string name="live_lock_screen_summary">Élő zárképernyő engedélyezése és konfigurálása</string>
+  <string name="live_lock_screen_settings_button">Beállítások</string>
+  <string name="live_lock_screen_settings_disabled_prompt">Rendelkezésre álló Élő zárképernyők megtekintéséhez kapcsolja be az Élő zárképernyőt.</string>
+  <string name="interruptions_ignore_while_media_title">Lehalkítás megelőzése</string>
+  <string name="interruptions_ignore_while_media_summary">Ne csökkentse a lejátszott média hangerejét értesítés érkezésekor</string>
+  <string name="cmlicense_title">CyanogenMod jogi nyilatkozat</string>
 </resources>

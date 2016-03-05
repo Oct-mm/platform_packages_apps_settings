@@ -50,6 +50,12 @@
             android:fragment="com.android.settings.cyanogenmod.NavBar"
             android:title="@string/navigation_bar_title" />
 
+        <com.android.settings.cyanogenmod.SystemSettingSwitchPreference
+            android:key="double_tap_sleep_navbar"
+            android:title="@string/double_tap_sleep_nav_bar_title"
+            android:summary="@string/double_tap_sleep_nav_bar_summary"
+            android:defaultValue="false" />
+
         <ListPreference
             android:key="navigation_recents_long_press"
             android:dialogTitle="@string/navigation_bar_recents_title"
@@ -253,6 +259,12 @@
             android:entries="@array/volbtn_cursor_control_entries"
             android:entryValues="@array/volbtn_cursor_control_values"
             android:persistent="false" />
+
+        <!-- Volume Steps -->
+        <PreferenceScreen
+                android:key="volume_steps"
+                android:title="@string/volume_steps_title"
+                android:fragment="com.android.settings.octos.VolumeSteps" />
 
         <SwitchPreference
             android:key="swap_volume_buttons"
